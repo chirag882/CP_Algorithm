@@ -1,0 +1,69 @@
+<snippet>
+	<content><![CDATA[
+class Zfuntion{
+
+private:
+
+    // function to calculate z vector which is for ith index calculate the longest prefix which is
+    // also sutstring for i and both are same
+    vector<int> zfun(string s){
+        int n = s.size();
+        vector<int> z(n,0);
+        int l=0,r=0;
+        for(int i=1;i<n;i++){
+            if(i <= r){
+                z[i] = min(r-i+1,z[i-l]);
+            }
+            while(i + z[i] < n && s[z[i]] == s[i+z[i]]){
+                z[i]++;
+            }
+            if(i + z[i] - 1 > r){
+                r = i + z[i] - 1;
+                l = i;
+            }
+        }
+        return z;
+    }
+
+public:
+
+    int cnt_of_pattern(string pat,string text){
+        string temp = pat + '#' + text;
+        vector<int> zfun1 = zfun(temp);
+        int cnt = 0;
+        for(auto it : zfun1){
+            if(it == pat.size()){
+                cnt++;
+            }
+        }
+        return cnt;
+    }
+    void idx_of_occurances(string pat,string text){
+        string temp = pat + '#' + text;
+        vector<int> zfun1 = zfun(temp);
+        vector<int> idx;
+        for(int i=0;i<zfun1.size();i++){
+            if(zfun1[i] == pat.size()){
+                idx.pb(i-pat.size()-1);
+            }
+        }
+        for(auto it : idx){
+            cout<<it<<" ";
+        }cout<<"\n";
+    }
+
+};
+
+void solve(){
+    Zfuntion obj1;
+    string pat = "aab";
+    string text = "aabaabaabaab";
+    obj1.idx_of_occurances(pat,text);
+    cout<<obj1.cnt_of_pattern(pat,text)<<"\n";
+}       
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>Zfun</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<scope>source.c++</scope>
+</snippet>

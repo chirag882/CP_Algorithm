@@ -1,0 +1,88 @@
+<snippet>
+	<content><![CDATA[
+const int MAXN=2e5+5;
+
+struct node
+{
+    int val,lazy;
+    node() {
+        val  = 0;
+        lazy  = 0;
+    }
+};
+
+class SegmentTree {
+    public:
+    vector<node> t;
+    vi initial;
+    SegmentTree(){
+        initial.resize(MAXN);
+        t.resize(4*MAXN+5);
+    }
+
+    int merge(int a, int b) {
+        return a + b; 
+    }
+
+    void build(int id, int l, int r) {
+        // cout << id << " " << l << " " << r << endl;
+        if (l == r) {
+            t[id].val = initial[l];
+            t[id].lazy = 0; 
+            return;
+        }
+        int mid = (l + r) >> 1;
+        build(id << 1, l, mid);
+        build(id << 1 | 1, mid + 1, r);
+        t[id].val = merge(t[id << 1].val, t[id << 1 | 1].val);
+        t[id].lazy = 0;
+    }
+
+
+    void propogate(int id,int l,int r){
+        if(t[id].lazy){
+            t[id].val += (t[id].lazy * partial_sum(l,r)); 
+            if(l != r){
+                t[id<<1].lazy += t[id].lazy;
+                t[id<<1|1].lazy += t[id].lazy;
+            }
+            t[id].lazy = 0;            
+        }
+    }
+
+    void update(int id, int l, int r, int ql, int qr,int diff) {
+        // cout << id << " " << l << " " << r << endl;
+        propogate(id,l,r);
+        if (l > qr || r < ql) return;
+        if (l >= ql && r <= qr) {
+            t[id].lazy += diff; 
+            propogate(id,l,r);
+            return;
+        }
+        int mid = (l + r) >> 1;
+        update(id << 1, l, mid, ql, qr,diff);
+        update(id << 1 | 1, mid + 1, r, ql, qr,diff);
+        t[id].val = merge(t[id << 1].val, t[id << 1 | 1].val);
+
+    }
+
+    int query(int id, int l, int r, int pos) {
+        // cout << id << " " << l << " " << r << endl;
+        propogate(id,l,r);
+        if (l == r){
+            return t[id].val;
+        }
+        int mid = (l + r) / 2;
+        // return merge(query(id << 1, l, mid, lq, rq), query(id << 1 | 1, mid + 1, r, lq, rq)); 
+        //  cant write if passing in merge with &
+        if(pos <= mid) return query((id << 1), l, mid,pos);
+        else return query((id << 1) | 1, mid + 1, r,pos);
+    }
+};
+
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>lazypro</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<scope>source.c++</scope>
+</snippet>

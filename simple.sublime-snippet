@@ -1,0 +1,45 @@
+<snippet>
+	<content><![CDATA[
+#include<bits/stdc++.h>
+using namespace std;
+// #define int long long
+#define rep(i,a,n) for(int i=a;i<n;i++)
+#define rep1(i,a,n) for(int i=a;i<=n;i++)
+#define fast_io() ios_base::sync_with_stdio(false);cin.tie(NULL);cout.tie(NULL) 
+#define all(x) x.begin(),x.end()
+
+
+void init_code(){
+    fast_io();
+    #ifndef ONLINE_JUDGE
+    freopen("input.txt", "r", stdin);
+    freopen("output.txt", "w", stdout);
+    #endif
+}
+
+void solve(){
+ 	
+}
+
+	
+
+
+int32_t main(){
+	init_code();
+	int t = 1;
+	cin>>t;	
+	funt();
+	while(t--){
+		solve();
+	}
+
+	return 0;
+}
+
+
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>simple</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<scope>source.c++</scope>
+</snippet>

@@ -1,0 +1,46 @@
+<snippet>
+	<content><![CDATA[
+// Start From Here Rabin-Karb
+
+vector<int> dp;
+vector<int> pa;
+
+class Rabin_Karb{
+private:
+    int p = 31; // as char can range from 1 to 26 so take a prime greater then 26
+
+public:
+
+    // preprocessing the dp which store the hash value of every substring
+    Rabin_Karb(string s){
+        int n = s.size();
+        dp.resize(n+1);
+        pa.resize(n+1);
+        dp[0] = s[0] - 'a' + 1;
+        pa[0] = 1;
+        int pow = p;
+        for(int i=1;i<n;i++){
+            dp[i] = dp[i-1] + mul_mod(s[i] - 'a' + 1,pow,mod);
+            pa[i] = pow;
+            pow = mul_mod(pow,p,mod);
+        }
+    }
+    // can be used to check weather two strings are same in O(1) time
+    // this function should be modified for every function
+    int hashQuery(int l,int r){
+        int ans = dp[r];
+        if(l > 0){
+            ans = (ans - dp[l-1] + mod)%mod;
+        }
+        // in this ans if l > 0 we have extra stuff also so to remove that 
+        // we have to multiple pa[l] on opposite side of ans
+        // for better understand D question(Rabin-Karb).
+        return ans;
+    }
+};
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>Rabin-Karb</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<scope>source.c++</scope>
+</snippet>

@@ -1,0 +1,37 @@
+<snippet>
+	<content><![CDATA[
+struct FenwickTree {
+    vector<int> bit;  // binary indexed tree
+    int n;
+ 
+    FenwickTree(int n) {
+        this->n = n;
+        bit.assign(n, 0);
+    }
+ 
+    int sum(int r) {
+        int ret = 0;
+        while(r > 0){
+            ret += bit[r];
+            r -= (r & -r);
+        }
+        return ret;
+    }
+ 
+    int sum(int l, int r) {
+        return sum(r) - sum(l - 1);
+    }
+ 
+    void upd(int idx, int delta) {
+        while(idx < bit.size()){
+            ret += delta;
+            idx += (idx & -idx);
+        }
+    }
+};
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>fenwick</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<scope>source.c++</scope>
+</snippet>

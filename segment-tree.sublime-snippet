@@ -1,0 +1,52 @@
+<snippet>
+	<content><![CDATA[
+class SegmentTree{
+private:
+    int n;
+    vector<int> st;
+    vector<int> v;
+public:
+    void init(int nn,vector<int> &a){
+        n = nn;
+        st.resize(4*n+5);
+        v = a;
+    }
+    void build(int id, int L, int R){
+        if (L == R){
+           st[id] = v[L];
+           return;
+        }
+        int M = (L + R) / 2;
+        build(id<<1, L, M);
+        build(id<<1|1, M + 1, R);
+        st[node] = max(st[id<<1], st[id<<1|1]);
+    }
+
+    void update(int node, int L, int R, int pos, int val){
+        if (L == R){
+            st[node] += val;
+            return;
+        }
+        int M = (L + R) / 2;
+        if (pos <= M)
+            update(id<<1, L, M, pos, val);
+        else
+            update(id<<1|1, M + 1, R, pos, val);
+        st[node] = max(st[id<<1], st[id<<1|1]);
+     }
+
+    int query(int node, int L, int R, int i, int j){
+        if (j < L || i > R)
+            return 0;
+        if (i <= L && R <= j)
+           return st[node];
+        int M = (L + R) / 2; 
+        return max(query(id<<1, L, M, i, j), query(id<<1|1, M + 1, R, i, j));  
+     }
+}
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>segment-tree</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<scope>source.c++</scope>
+</snippet>
