@@ -33,8 +33,11 @@ private:
         return lps;
     }
 public:
-    void longestPalindromeSubstring(string s){
+    vector<int> generatelps(string s){
         vector<int> lps = LPS(s);
+        return lps;
+    }
+    void longestPalindromeSubstring(string s,vector<int> &lps){
         int idx;
         int maxi = INT_MIN;
         for(int i=1;i<lps.size()-1;i++){
@@ -48,13 +51,32 @@ public:
         string ans = s.substr(actualidx,maxi);
         cout<<ans<<"\n";
     }
+    bool checkPalindrome(int l,int r,string s,vector<int> &lps){
+        int len = r-l+1;
+        int mid;
+        int lpsindex;
+        if(len % 2){
+            mid = (l+r)/2;
+            lpsindex = 2*mid+2;
+        }else{
+            mid = (l+r)/2;
+            lpsindex = 2*mid+3;
+        }
+        if(len <= lps[lpsindex]){
+            return true;
+        }else{
+            return false;
+        }
+    }
 };
 
 
 void solve(){
     Manacher obj1;
     string s = "ababab";
-    obj1.longestPalindromeSubstring(s);
+    vector<int> lps = obj1.generatelps(s);    
+    obj1.longestPalindromeSubstring(s,lps);
+    cout<<obj1.checkPalindrome(l,r,s,lps)<<"\n";
 }
 ]]></content>
 	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
