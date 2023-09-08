@@ -1,0 +1,48 @@
+<snippet>
+	<content><![CDATA[
+nt up[20][100005];
+vector<int> lvl(100005,0);
+int n,q;
+void build(){
+    for(int i=1;i<20;i++){
+        for(int node=1;node<=n;node++)
+            up[i][node] = up[i-1][up[i-1][node]];
+    }
+}
+
+void dfs(int node,int sum,int par,vector<pair<int,int>> adj[]){
+    up[0][node] = par;
+    lvl[node] = lvl[par]+1;
+    int maxa = 0;
+    for(auto it : adj[node]){
+        int nextnode = it.first;
+        int weight = it.second;
+        if(nextnode == par)continue;
+        dfs(nextnode,sum+weight,node,adj);
+    }
+    return
+}
+
+int lca(int a,int b){
+    if(lvl[a] < lvl[b])swap(a,b);
+    int diff = lvl[a] - lvl[b];
+    for(int i=19;i>=0;i--){
+        if((1<<i) & diff){
+            a = up[i][a];
+        }
+    }
+    if(a == b)return a;
+    for(int i=19;i>=0;i--){
+        if(up[i][a] != up[i][b]){
+            a = up[i][a];
+            b = up[i][b];
+        }
+    }
+    return up[0][a];
+}
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<!-- <tabTrigger>Binary Lifting</tabTrigger> -->
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.cpp</scope> -->
+</snippet>
