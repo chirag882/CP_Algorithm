@@ -1,44 +1,72 @@
 <snippet>
 	<content><![CDATA[
-nt up[20][100005];
-vector<int> lvl(100005,0);
+int up[12][1005];
+vector<int> lvl;
 int n,q;
 void build(){
-    for(int i=1;i<20;i++){
+    for(int i=1;i<12;i++){
         for(int node=1;node<=n;node++)
             up[i][node] = up[i-1][up[i-1][node]];
     }
 }
 
-void dfs(int node,int sum,int par,vector<pair<int,int>> adj[]){
+void dfs(int node,int par,vector<int> adj[]){
     up[0][node] = par;
     lvl[node] = lvl[par]+1;
     int maxa = 0;
     for(auto it : adj[node]){
-        int nextnode = it.first;
-        int weight = it.second;
-        if(nextnode == par)continue;
-        dfs(nextnode,sum+weight,node,adj);
+        if(it == par)continue;
+        dfs(it,node,adj);
     }
-    return
+    return;
 }
 
 int lca(int a,int b){
     if(lvl[a] < lvl[b])swap(a,b);
     int diff = lvl[a] - lvl[b];
-    for(int i=19;i>=0;i--){
+    for(int i=11;i>=0;i--){
         if((1<<i) & diff){
             a = up[i][a];
         }
     }
     if(a == b)return a;
-    for(int i=19;i>=0;i--){
+    for(int i=11;i>=0;i--){
         if(up[i][a] != up[i][b]){
             a = up[i][a];
             b = up[i][b];
         }
     }
     return up[0][a];
+}
+
+void solve(){
+    lvl.resize(n+1,0);
+    memset(up,0,sizeof(up));
+    n;cin>>n;
+    vector<int> adj[n+1];
+    vector<bool> root(n+1,true);
+    for(int i=1;i<=n;i++){
+        int m;cin>>m;
+        rep(j,0,m){
+            int x;cin>>x;
+            adj[i].push_back(x);
+            adj[x].push_back(i);
+            root[x] = false;
+        }
+    }
+    int rot;
+    rep(i,1,n+1){
+        if(root[i]){
+            rot = i;
+            break;
+        }
+    }
+    dfs(rot,0,adj);
+    cin>>q;
+    while(q--){
+        int a,b;cin>>a>>b;
+        cout<<lca(a,b)<<"\n";
+    }
 }
 ]]></content>
 	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
