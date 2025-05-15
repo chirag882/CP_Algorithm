@@ -50,6 +50,13 @@ ll phin(ll n) {ll number = n; if (n % 2 == 0) {number /= 2; while (n % 2 == 0)n 
 
 // map me count function use nahi karna chachiye usse acha direct mp[a[i]] == 0 karke check karna
 
+// For finding out on which test case falling wrong...
+// if(j == 120){
+//     string res = to_string(n)+" ";
+//     for(auto &x : v) res += to_string(x)+" ";
+//     cout<<res;
+// }
+
 void solve(){   
 
 }   
